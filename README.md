@@ -57,5 +57,5 @@ tests/
 ## Roadmap
 
 - [ ] pgvector retriever (Postgres + embeddings) replacing the keyword placeholder
-- [ ] GitHub Actions CI running the gates above
+- [x] GitHub Actions CI running the gates above
 - [ ] eval harness for answer quality (pydantic_evals / LLM-as-judge)
