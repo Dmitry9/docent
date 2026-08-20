@@ -14,3 +14,4 @@ wheels/
 
 # Local session context for Claude, never committed
 handoff.md
+out/
