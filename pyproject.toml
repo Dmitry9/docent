@@ -1,0 +1,71 @@
+[project]
+name = "docent"
+version = "0.1.0"
+description = "A guided Q&A agent over a document collection — pydantic-ai agent with a retrieval tool and an eval harness"
+readme = "README.md"
+authors = [
+    { name = "Dmitry9", email = "karpov.dmitry80@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic-ai-slim[anthropic]>=2.32.0",
+]
+
+[project.scripts]
+docent = "docent.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "anyio>=4.14.2",
+    "pyright>=1.1.411",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.3",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort (import sorting)
+    "N",      # pep8-naming
+    "UP",     # pyupgrade (modern syntax)
+    "B",      # flake8-bugbear (likely bugs)
+    "C4",     # flake8-comprehensions
+    "PTH",    # flake8-use-pathlib
+    "SIM",    # flake8-simplify
+    "RUF",    # ruff-specific
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pyright]
+include = ["src", "tests"]
+typeCheckingMode = "strict"
+pythonVersion = "3.13"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib -m 'not llm'"
+markers = [
+    "llm: tests that call a real LLM API (cost money; run explicitly with -m llm)",
+    "integration: tests needing external services (e.g. a database)",
+]
+
+[tool.coverage.run]
+source = ["src/docent"]
+omit = ["*/cli.py"]  # thin shim over build_agent; exercised via `docent` manually
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
